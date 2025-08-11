@@ -13,7 +13,7 @@ WITH mentions_stats AS (
     d.date AS date_post,                      -- Date normalisée depuis la dimension date
     COUNT(*) AS total_mentions                 -- Nombre total de mentions enregistrées ce jour-là
   FROM {{ ref('facts_posts') }} f
-  JOIN {{ ref('dim_date') }} d ON d.id_date = f.id_date  -- Jointure sur la dimension date
+  JOIN {{ ref('dim_date') }} d ON d.date = f.date  -- Jointure sur la dimension date
   GROUP BY d.date                             -- Regroupe les données par date standardisée
 ),
 
@@ -43,7 +43,7 @@ satisfaction_par_jour AS (
   FROM {{ ref('dim_satisfaction') }} s
   JOIN {{ ref('facts_commandes') }} c
     ON s.id_commande = c.id_commande      -- Association des notes aux commandes
-  JOIN {{ ref('dim_date') }} d ON d.id_date = c.id_date_commande  -- Jointure sur dim_date pour date standardisée
+  JOIN {{ ref('dim_date') }} d ON d.date = c.date_commande  -- Jointure sur dim_date pour date standardisée
   GROUP BY d.date                         -- Regroupement par date standardisée
 ),
 

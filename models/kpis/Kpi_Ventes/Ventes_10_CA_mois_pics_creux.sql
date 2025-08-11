@@ -15,7 +15,7 @@ WITH ca_mensuel AS (
     EXTRACT(MONTH FROM dt.date) AS mois,
     ROUND(SUM(dc.quantite * p.prix), 2) AS chiffre_affaires
   FROM {{ ref('facts_commandes') }} c
-  JOIN {{ ref('dim_date') }} dt ON dt.id_date = c.id_date_commande
+  JOIN {{ ref('dim_date') }} dt ON dt.date = c.date_commande
   JOIN {{ ref('dim_details_commandes') }} dc ON c.id_commande = dc.id_commande
   JOIN {{ ref('dim_produits') }} p ON dc.id_details_produits = p.id_produit
   WHERE LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled')

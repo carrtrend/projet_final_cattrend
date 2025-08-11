@@ -11,7 +11,7 @@ SELECT
 FROM {{ ref('dim_details_commandes') }} dc 
 JOIN {{ ref('facts_commandes') }}c 
   ON dc.id_commande = c.id_commande 
-JOIN {{ ref('dim_date') }} d ON d.id_date = c.id_date_commande
+JOIN {{ ref('dim_date') }} d ON d.date = c.date_commande
 JOIN {{ ref('dim_produits') }} p 
   ON dc.id_details_produits = p.id_produit
 GROUP BY date_commande, categorie 
