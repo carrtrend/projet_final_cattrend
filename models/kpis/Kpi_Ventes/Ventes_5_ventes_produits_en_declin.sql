@@ -17,7 +17,7 @@ WITH ventes_par_mois AS (
   JOIN {{ ref('facts_commandes') }} c 
     ON dc.id_commande = c.id_commande 
   JOIN {{ ref('dim_date') }} dt
-    ON c.id_date_commande = dt.id_date
+    ON c.date_commande = dt.date
   JOIN {{ ref('dim_produits') }} p 
     ON dc.id_details_produits = p.id_produit
   GROUP BY dc.id_details_produits, p.id_produit,p.categorie,DATE_TRUNC(dt.date, MONTH), p.prix
@@ -36,7 +36,7 @@ ventes_completes AS (
       DATE_TRUNC(dt.date, MONTH) AS mois 
     FROM {{ ref('facts_commandes') }} co
     JOIN {{ ref('dim_date')}} dt
-    ON co.id_date_commande = dt.id_date
+    ON co.date_commande = dt.date
   ) c
   LEFT JOIN ventes_par_mois v 
     ON p.id_produit  = v.id_produit AND c.mois = v.mois

@@ -37,9 +37,9 @@ JOIN {{ ref('dim_produits') }} p
 -- Jointure avec la table des promotions pour déterminer les dates de début et fin de promo
 JOIN {{ ref('dim_promotions') }} pr 
   ON pr.id_produit = p.id_produit
-JOIN {{ ref('dim_date') }} dt1 ON dt1.id_date = pr.id_date_debut
-JOIN {{ ref('dim_date') }} dt2 ON dt2.id_date = pr.id_date_fin
-JOIN {{ ref('dim_date') }} dt3 ON dt3.id_date = c.id_date_commande
+JOIN {{ ref('dim_date') }} dt1 ON dt1.date = pr.date_debut
+JOIN {{ ref('dim_date') }} dt2 ON dt2.date = pr.date_fin
+JOIN {{ ref('dim_date') }} dt3 ON dt3.date = c.date_commande
 -- Filtrage sur les commandes comprises dans la période de 7 jours avant à 7 jours après la promo
 WHERE
   dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 7 DAY) 

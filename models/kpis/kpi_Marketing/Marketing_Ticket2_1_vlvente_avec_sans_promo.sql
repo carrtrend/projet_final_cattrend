@@ -40,13 +40,13 @@ ventes_taggees AS (
   FROM dim_details_commandes ddc
   JOIN {{ ref('facts_commandes') }} c
     ON ddc.id_commande = c.id_commande            -- Association avec la commande principale
-  JOIN {{ ref('dim_date')}} dt1 ON c.id_date_commande = dt1.id_date
+  JOIN {{ ref('dim_date')}} dt1 ON c.date_commande = dt1.date
   JOIN {{ ref('dim_produits') }} p
     ON ddc.id_details_produits = p.id_produit              -- Association avec les infos produit
   LEFT JOIN {{ ref('dim_promotions') }} pr
     ON ddc.id_details_produits = pr.id_produit     -- Jointure avec les promotions (si existantes)
-  JOIN {{ ref('dim_date')}} dt2 ON pr.id_date_debut = dt2.id_date
-  JOIN {{ ref('dim_date')}} dt3 ON pr.id_date_fin = dt3.id_date
+  JOIN {{ ref('dim_date')}} dt2 ON pr.date_debut = dt2.date
+  JOIN {{ ref('dim_date')}} dt3 ON pr.date_fin = dt3.date
 ),
 
 -- Étape 2 : Résumer le CA total, le nombre de jours distincts et le CA moyen par jour

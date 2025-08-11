@@ -14,9 +14,9 @@ FROM {{ ref('facts_commandes') }} c
 JOIN {{ ref('dim_satisfaction') }} s
   ON c.id_commande = s.id_commande
 JOIN {{ ref('dim_date') }} dc
-  ON c.id_date_commande = dc.id_date
+  ON c.date_commande = dc.date
 JOIN {{ ref('dim_date') }} dl
-  ON c.id_date_livraison = dl.id_date
+  ON c.date_livraison = dl.date
 WHERE s.note_client IS NOT NULL
 GROUP BY mois_commande, situation_livraison
 ORDER BY mois_commande, situation_livraison

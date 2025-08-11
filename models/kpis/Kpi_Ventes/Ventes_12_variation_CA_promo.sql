@@ -29,9 +29,9 @@ WITH ventes_par_periode AS (
     ON dc.id_details_produits = p.id_produit
   JOIN {{ ref('dim_promotions') }} pr 
     ON pr.id_produit = p.id_produit
-  JOIN {{ ref('dim_date') }} dt1 ON dt1.id_date = pr.id_date_debut
-  JOIN {{ ref('dim_date') }} dt2 ON dt2.id_date = pr.id_date_fin
-  JOIN {{ ref('dim_date') }} dt3 ON dt3.id_date = c.id_date_commande 
+  JOIN {{ ref('dim_date') }} dt1 ON dt1.date = pr.date_debut
+  JOIN {{ ref('dim_date') }} dt2 ON dt2.date = pr.date_fin
+  JOIN {{ ref('dim_date') }} dt3 ON dt3.date = c.date_commande 
   WHERE dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 7 DAY) AND dt2.date
     AND LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled')  -- Exclure commandes annulées
   GROUP BY p.id_produit, p.produit, periode

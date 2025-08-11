@@ -17,7 +17,7 @@ FROM {{ ref('dim_satisfaction') }} s                         -- Table des avis c
 JOIN {{ ref('facts_commandes') }} c                           -- Table des commandes factuelles
   ON s.id_commande = c.id_commande                           -- Lier chaque avis à la commande correspondante
 JOIN {{ ref('dim_date') }} d                                 -- Table des dates pour obtenir la date réelle de la commande
-  ON c.id_date_commande = d.id_date                          -- Lier la commande à sa date de commande
+  ON c.date_commande = d.date                          -- Lier la commande à sa date de commande
 WHERE s.note_client IS NOT NULL                              -- Exclure les avis sans note (notes NULL)
   AND LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled') -- Exclure les commandes annulées, en français et anglais
 GROUP BY annee, mois, periode                                -- Regrouper les résultats par année, mois, et période formatée

@@ -35,11 +35,11 @@ WITH ventes_taggees AS (
 
   -- Ajout des jointures vers dim_date pour récupérer les vraies dates
   JOIN {{ ref('dim_date') }} dt1
-    ON dt1.id_date = pr.id_date_debut                      -- Date de début promo
+    ON dt1.date = pr.date_debut                      -- Date de début promo
   JOIN {{ ref('dim_date') }} dt2
-    ON dt2.id_date = pr.id_date_fin                        -- Date de fin promo
+    ON dt2.date = pr.date_fin                        -- Date de fin promo
   JOIN {{ ref('dim_date') }} dt3
-    ON dt3.id_date = c.id_date_commande                    -- Date de la commande
+    ON dt3.date = c.date_commande                    -- Date de la commande
 
   -- Fenêtre de 15 jours avant et après la période de promotion
   WHERE dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 15 DAY)
