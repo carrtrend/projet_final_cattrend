@@ -7,7 +7,7 @@ WITH promotions_preparees AS (
     TRIM(id_promotion) AS id_promotion,
     TRIM(id_produit) AS id_produit,
     TRIM(type_promotion) AS type_promotion,
-    SAFE_CAST(valeur_promotion AS FLOAT64) AS valeur_promotion,
+    SAFE_CAST(valeur_promotion AS STRING) AS valeur_promotion,
     SAFE_CAST(date_debut AS DATE) AS date_debut,
     SAFE_CAST(date_fin AS DATE) AS date_fin,
     TRIM(responsable_promotion) AS responsable_promotion,

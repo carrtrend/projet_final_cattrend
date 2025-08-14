@@ -2,6 +2,7 @@
 SELECT 
   c.id_machine,
   d.localisation,
+  c.mois,
   COUNT(CASE 
            WHEN c.etat_machine IN ('En panne', 'En maintenance') 
            THEN c.temps_d_arret 
@@ -15,5 +16,5 @@ SELECT
 FROM {{ ref('facts_entrepots_machine') }} AS c
 JOIN {{ ref('dim_entrepots') }} AS d
   ON c.id_entrepot = d.id_entrepot
-GROUP BY c.id_machine, d.localisation
+GROUP BY c.id_machine, d.localisation, c.mois
 ORDER BY temps_total_panne_ou_maintenance DESC

@@ -20,7 +20,8 @@ WITH ventes_par_mois AS (
     ON c.id_date_commande = dt.id_date
   JOIN {{ ref('dim_produits') }} p 
     ON dc.id_details_produits = p.id_produit
-  GROUP BY dc.id_details_produits, p.id_produit,p.categorie,DATE_TRUNC(dt.date, MONTH), p.prix
+  WHERE LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled')   -- Exclure les commandes annulées
+  GROUP BY dc.id_details_produits, p.id_produit, p.categorie, DATE_TRUNC(dt.date, MONTH), p.prix
 ), 
 
 -- Étape 2 : Création d'une table complète avec tous les mois pour chaque produit
@@ -36,7 +37,8 @@ ventes_completes AS (
       DATE_TRUNC(dt.date, MONTH) AS mois 
     FROM {{ ref('facts_commandes') }} co
     JOIN {{ ref('dim_date')}} dt
-    ON co.id_date_commande = dt.id_date
+      ON co.id_date_commande = dt.id_date
+    WHERE LOWER(co.statut_commande) NOT IN ('annulée', 'cancelled') 
   ) c
   LEFT JOIN ventes_par_mois v 
     ON p.id_produit  = v.id_produit AND c.mois = v.mois

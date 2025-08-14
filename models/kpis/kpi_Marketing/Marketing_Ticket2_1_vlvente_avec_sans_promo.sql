@@ -1,4 +1,4 @@
-  -- ===============================================================================
+-- ===============================================================================
 -- Analyse du chiffre d'affaires (CA) total et moyen par jour selon les promotions
 -- ===============================================================================
 -- Permet de :
@@ -47,6 +47,7 @@ ventes_taggees AS (
     ON ddc.id_details_produits = pr.id_produit     -- Jointure avec les promotions (si existantes)
   JOIN {{ ref('dim_date')}} dt2 ON pr.id_date_debut = dt2.id_date
   JOIN {{ ref('dim_date')}} dt3 ON pr.id_date_fin = dt3.id_date
+  WHERE LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled') 
 ),
 
 -- Étape 2 : Résumer le CA total, le nombre de jours distincts et le CA moyen par jour
