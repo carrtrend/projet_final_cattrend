@@ -7,7 +7,8 @@
 
 SELECT
   dc.nom_canal AS canal,            -- Nom lisible du canal marketing
-  SUM(fc.clics) AS total_clics      -- Somme des clics pour chaque canal
+  SUM(fc.clics) AS total_clics,      -- Somme des clics pour chaque canal
+  SUM(fc.conversions) AS total_acquisition
 FROM {{ ref('facts_campaigns') }} AS fc
 JOIN {{ ref('dim_canal') }} AS dc
   ON fc.id_canal_dim_canal = dc.id_canal
