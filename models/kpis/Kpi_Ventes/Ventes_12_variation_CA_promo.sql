@@ -11,9 +11,9 @@ WITH ventes_par_periode AS (
     p.id_produit AS id_produit,
     p.produit AS produit,
     CASE
-      WHEN dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 7 DAY) 
+      WHEN dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 30 DAY) 
                                AND DATE_SUB(dt2.date, INTERVAL 1 DAY)
-        THEN 'avant'    -- 7 jours avant le début de la promo
+        THEN 'avant'    -- 30 jours avant le début de la promo
 
       WHEN dt3.date BETWEEN dt1.date AND dt2.date
         THEN 'pendant'  -- Période de la promotion
@@ -32,7 +32,7 @@ WITH ventes_par_periode AS (
   JOIN {{ ref('dim_date') }} dt1 ON dt1.id_date = pr.id_date_debut
   JOIN {{ ref('dim_date') }} dt2 ON dt2.id_date = pr.id_date_fin
   JOIN {{ ref('dim_date') }} dt3 ON dt3.id_date = c.id_date_commande 
-  WHERE dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 7 DAY) AND dt2.date
+  WHERE dt3.date BETWEEN DATE_SUB(dt1.date, INTERVAL 30 DAY) AND dt2.date
     AND LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled')  -- Exclure commandes annulées
   GROUP BY p.id_produit, p.produit, periode
 ),

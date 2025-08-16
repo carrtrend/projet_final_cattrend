@@ -13,6 +13,9 @@ SELECT
   END AS periode_analyse,
 
   p.produit AS produit,  -- Nom du produit concerné
+  dt1.date AS debut_promo,
+  dt2.date AS fin_promo,
+  dt3.date AS date_commande,
 
   -- Calcul du chiffre d'affaires (quantité * prix unitaire)
   ROUND(SUM(dc.quantite * p.prix), 2) AS chiffre_affaires,
@@ -49,7 +52,7 @@ WHERE
   AND LOWER(c.statut_commande) NOT IN ('annulée', 'cancelled')
 
 -- Agrégation par période d’analyse et par produit
-GROUP BY periode_analyse, p.produit
+GROUP BY periode_analyse, p.produit, debut_promo, fin_promo, date_commande
 
 -- Tri par produit, puis ordre logique des périodes (avant → pendant → après → hors)
 ORDER BY 

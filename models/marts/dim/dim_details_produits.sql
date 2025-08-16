@@ -6,7 +6,5 @@ SELECT DISTINCT
   p.prix,
   p.sous_categorie AS sous_categorie,
   p.variation,
-  d.id_produit
+  p.id AS id_produit
 FROM {{ ref('stg_produits') }} AS p
-JOIN {{ ref('dim_produits') }} AS d
-  ON p.Produit = d.produit
